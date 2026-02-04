@@ -55,7 +55,7 @@ This document provides a review of `test.html` and `ssrf.svg` in the repository.
 - Sanitize SVG files before processing them server-side to remove potentially harmful tags like `<image>`, `<script>`, or `<iframe>`.
 
 ## Rendering Results
-The `test.html` file renders a simple password input and a button. The `ssrf.svg` and `rod.svg` files render a broken image icon because the external resource is unavailable.
+The `test.html` file renders a simple password input and a button. The `ssrf.svg`, `rod.svg`, `testyuu.svg`, and `yuiii.svg` files render a broken image icon because the external resource is unavailable.
 
 ## 3. `rod.svg`: Attempted Cookie Stealing
 
